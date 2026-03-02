@@ -1,4 +1,4 @@
-package raisetech.StudentManagement.domain;
+package raisetech.StudentsManagement.domain;
 
 import java.util.List;
 import lombok.Getter;

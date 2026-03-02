@@ -10,7 +10,7 @@ import raisetech.StudentsManagement.data.StudentCourse;
 @Service
 public class StudentService {
 
-  private final StudentRepository2 repository;
+  private StudentRepository2 repository;
 
   @Autowired
   public StudentService(StudentRepository2 repository) {

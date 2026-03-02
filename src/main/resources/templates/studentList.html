@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>studentsdetails</title>
+</head>
+<body>
+<h1>studentsdetails</h1>
+<table border="1">
+  <thead>
+<tr>
+  <th>id</th>
+  <th>Name</th>
+  <th>kanaName</th>
+  <th>nickName</th>
+  <th>email</th>
+  <th>area</th>
+  <th>age</th>
+  <th>sex</th>
+  <th>remarks</th>
+</tr>
+  </thead>
+  <tbody>
+  <tr th:each="student : ${studentList}">
+    <td th:text="${student.student.id}">1</td>
+    <td th:text="${student.student.name}">YamadaTaro</td>
+    <td th:text="${student.student.kananame}">YamadaTaro</td>
+    <td th:text="${student.student.nickname}">taro-</td>
+    <td th:text="${student.student.email}">taro@example.com</td>
+    <td th:text="${student.student.area}">Tokyo</td>
+    <td th:text="${student.student.age}">20</td>
+    <td th:text="${student.student.sex}">men</td>
+    <td th:text="${student.student.remarks}">Nothing</td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
