@@ -10,7 +10,7 @@ import raisetech.StudentsManagement.data.StudentCourse;
 @Service
 public class StudentService {
 
-  private final StudentRepository2 repository;
+  private StudentRepository2 repository;
 
   @Autowired
   public StudentService(StudentRepository2 repository) {
@@ -24,19 +24,7 @@ public class StudentService {
 
 
   public List<StudentCourse> searchStudentCourseList() {
-    return repository.searchStudentCourse(); // ←ここはRepositoryに合わせて調整
-  }
-
-
-  public List<Student> searchStudentsIn30s() {
-    return repository.search().stream()
-        .filter(s -> s.getAge() >= 30 && s.getAge() <= 39)
-        .toList();
-  }
-
-  public List<StudentCourse> searchJavaCourses() {
-    return repository.searchStudentCourse().stream()
-        .filter(c -> "Java".equals(c.getCourseName()))
-        .toList();
+    return repository.searchStudentCourse();
   }
 }
+

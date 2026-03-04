@@ -2,42 +2,40 @@ package raisetech.StudentsManagement;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentsManagement.data.Student;
 import raisetech.StudentsManagement.data.StudentCourse;
+import raisetech.StudentsManagement.service.StudentConverter;
 import raisetech.StudentsManagement.service.StudentService;
+import org.springframework.ui.Model;
 
-@RestController
+
+@Controller
 public class StudentCourseController {
 
-  private final StudentService service;
+  private  StudentService service;
+  private StudentConverter converter;
+
 
   @Autowired
-  public StudentCourseController(StudentService service) {
-    this.service = service;
+  public StudentCourseController(StudentService studentservice, StudentConverter converter) {
+    this.service =studentservice;
+this.converter=converter;
   }
 
   @GetMapping("/studentList")
-  public List<Student> getStudentList() {
-    return service.searchStudentList();
+  public String studentList(Model model) {
+    List<Student> students = service.searchStudentList();
+    List<StudentCourse> studentsCourses = service.searchStudentCourseList();
+
+    model.addAttribute("studentList", converter.convertStudentDetails(students, studentsCourses));
+    return "studentList";
   }
 
-
-  @GetMapping("/studentCourseList")
+  @GetMapping("/studentsCourseList")
   public List<StudentCourse> getStudentsCourseList() {
     return service.searchStudentCourseList();
-  }
 
-
-  @GetMapping("/studentList/30s")
-  public List<Student> getStudentListIn30s() {
-    return service.searchStudentsIn30s();
-  }
-
-
-  @GetMapping("/studentCourseList/java")
-  public List<StudentCourse> getJavaCourseList() {
-    return service.searchJavaCourses();
   }
 }
