@@ -5,9 +5,9 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import raisetech.StudentsManagement.data.Student;
 import raisetech.StudentsManagement.data.StudentCourse;
-
 
 @Mapper
 public interface StudentRepository2 {
@@ -18,15 +18,34 @@ public interface StudentRepository2 {
   @Select("SELECT * FROM students_courses")
   List<StudentCourse> searchStudentCourse();
 
-  @Insert("""
-INSERT INTO students
-(name, kana_name, nick_name, email, area, age, sex, remarks, is_deleted)
-VALUES
-(#{name}, #{kananame}, #{nickname}, #{email}, #{area}, #{age}, #{sex}, #{remarks}, #{isDeleted})
-""")
+  @Insert(
+      "INSERT INTO students(name, name_kana, nickname, email, region, age, gender, remarks, is_deleted) "
+          + "VALUES(#{name}, #{nameKana}, #{nickName}, #{email}, #{region}, #{age}, #{gender}, #{remarks}, false)")
   @Options(useGeneratedKeys = true, keyProperty = "id")
-  void insertStudent(Student student);
+  void registerStudent(Student student);
 
+  @Insert(
+      "INSERT INTO students_courses(student_id, course_name, course_start_at, course_end_at) "
+          + "VALUES(#{studentId}, #{courseName}, #{courseStartAt}, #{courseEndAt})")
+  @Options(useGeneratedKeys = true, keyProperty = "id")
+  void registerStudentCourse(StudentCourse studentCourse);
 
+  @Select("SELECT * FROM students WHERE id = #{id}")
+  Student searchStudentById(String id);
 
+  @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}")
+  List<StudentCourse> searchStudentCourseByStudentId(String studentId);
+
+  @Update(
+      "UPDATE students SET "
+          + "name = #{name}, "
+          + "name_kana = #{nameKana}, "
+          + "nickname = #{nickName}, "
+          + "email = #{email}, "
+          + "region = #{region}, "
+          + "age = #{age}, "
+          + "gender = #{gender}, "
+          + "remarks = #{remarks} "
+          + "WHERE id = #{id}")
+  void updateStudent(Student student);
 }

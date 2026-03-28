@@ -4,35 +4,35 @@
   <title>受講生登録</title>
 </head>
 <body>
-<h1>受講生登録<h1>
+<h1>受講生登録</h1>
 <form th:action="@{/registerStudent}" th:object="${studentDetail}" method="post">
   <div>
     <label for="name">名前:</label>
-    <input type="text" id="name" th:field="*{student.name}" required />
+    <input type="text" id="name" th:field="*{student.name}" required/>
   </div>
   <div>
-    <label>カナ:</label>
-    <input type="text" th:field="*{student.kananame}" />
+    <label>カナ名:</label>
+    <input type="text" id="kanaName" th:field="*{student.kanaName}" required />
     </div>
 
   <div>
     <label>ニックネーム:</label>
-    <input type="text" th:field="*{student.nickname}" />
+    <input type="text" id="nickname" th:field="*{student.nickname}" required />
   </div>
 
   <div>
     <label>メール:</label>
-    <input type="email" th:field="*{student.email}" />
+    <input type="email"  id="email" th:field="*{student.email}" required />
   </div>
 
   <div>
-    <label>エリア:</label>
-    <input type="text" th:field="*{student.area}" />
+    <label>地域:</label>
+    <input type="text"  id="area" th:field="*{student.area}" required />
   </div>
 
       <div>
         <label>年齢:</label>
-        <input type="number" th:field="*{student.age}" required>
+  <input type="number" id="age" th:field="*{student.age}" required/>
       </div>
 
   <div>
@@ -52,9 +52,10 @@
 
       <hr>
 
-      <div>
-        <label>コース名:</label>
-        <input type="text" th:field="*{studentCourses[0].courseName}" placeholder="Java">
+      <div> th:each="course, stat : *{studentsCourses}">
+        <label> for="courseName" th:for="studetCourse.__${stat.index}__.courseName">受講コース名: </label>
+        <input type="text" id="courseName" th:id="studentCourse.__${stat.index}__.courseName"
+               th:field="*{studentsCourses[__${stat.index}__].courseName}"/>
       </div>
 
     <button type="submit">登録</button>
