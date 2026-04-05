@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,15 +15,12 @@ import raisetech.StudentsManagement.data.StudentCourse;
 import raisetech.StudentsManagement.domain.StudentDetail;
 import raisetech.StudentsManagement.service.StudentConverter;
 import raisetech.StudentsManagement.service.StudentService;
-import org.springframework.ui.Model;
-
 
 @Controller
 public class StudentCourseController {
 
   private StudentService service;
   private StudentConverter converter;
-
 
   @Autowired
   public StudentCourseController(StudentService studentservice, StudentConverter converter) {
@@ -33,16 +31,14 @@ public class StudentCourseController {
   @GetMapping("/studentList")
   public String studentList(Model model) {
     List<Student> students = service.searchStudentList();
-    List<StudentCourse> studentsCourses = service.searchStudentCourseList();
-
-    model.addAttribute("studentList", converter.convertStudentDetails(students, studentsCourses));
+    List<StudentCourse> studentCourses = service.searchStudentCourseList();
+    model.addAttribute("studentList", converter.convertStudentDetails(students, studentCourses));
     return "studentList";
   }
 
   @GetMapping("/studentsCourseList")
   public List<StudentCourse> getStudentsCourseList() {
     return service.searchStudentCourseList();
-
   }
 
   @GetMapping("/newStudent")
@@ -52,7 +48,6 @@ public class StudentCourseController {
     studentDetail.setStudentCourses(Arrays.asList(new StudentCourse()));
     model.addAttribute("studentDetail", studentDetail);
     return "registerStudent";
-
   }
 
   @PostMapping("/registerStudent")
@@ -61,7 +56,7 @@ public class StudentCourseController {
       return "registerStudent";
     }
 
-    service.registerStudent(studentDetail.getStudent());
+    service.registerStudent(studentDetail);
     return "redirect:/studentList";
   }
 
@@ -81,5 +76,4 @@ public class StudentCourseController {
     service.updateStudent(studentDetail);
     return "redirect:/studentList";
   }
-
 }

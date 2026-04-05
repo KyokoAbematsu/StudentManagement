@@ -21,21 +21,18 @@
   </tr>
   </thead>
   <tbody>
-  <tr th:each="student : ${studentList}">
-    <td th:text="${student.student.id}">1</td>
-
+  <tr th:each="studentDetail : ${studentList}">
+    <td th:text="${studentDetail.student.id}">1</td>
     <td>
-      <a th:href="@{/student/{id}(id=${student.student.id})}"
-         th:text="${student.student.name}">YamadaTaro</a>
+      <a href="/studentList" th:href="@{/student/{id}(id=${studentDetail.student.id})}" th:text="${studentDetail.student.name}">YamadaTaro</a>
     </td>
-
-    <td th:text="${student.student.nameKana}">YamadaTaro</td>
-    <td th:text="${student.student.nickName}">taro-</td>
-    <td th:text="${student.student.email}">taro@example.com</td>
-    <td th:text="${student.student.region}">Tokyo</td>
-    <td th:text="${student.student.age}">20</td>
-    <td th:text="${student.student.gender}">men</td>
-    <td th:text="${student.student.remarks}">Nothing</td>
+    <td th:text="${studentDetail.student.nameKana}">YamadaTaro</td>
+    <td th:text="${studentDetail.student.nickName}">taro-</td>
+    <td th:text="${studentDetail.student.email}">taro@example.com</td>
+    <td th:text="${studentDetail.student.region}">Tokyo</td>
+    <td th:text="${studentDetail.student.age}">20</td>
+    <td th:text="${studentDetail.student.gender}">men</td>
+    <td th:text="${studentDetail.student.remarks}">Nothing</td>
   </tr>
   </tbody>
 </table>
