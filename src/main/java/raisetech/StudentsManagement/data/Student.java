@@ -9,12 +9,12 @@ public class Student {
 
   private String id;
   private String name;
-  private String kananame;
-  private String nickname;
+  private String nameKana;
+  private String nickName;
   private String email;
-  private String area;
+  private String region;
   private int age;
-  private String sex;
+  private String gender;
   private String remarks;
   private boolean isDeleted;
 }
