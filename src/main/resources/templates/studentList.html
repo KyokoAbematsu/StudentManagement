@@ -18,13 +18,15 @@
     <th>age</th>
     <th>sex</th>
     <th>remarks</th>
+    <th>cansel</th>
   </tr>
   </thead>
   <tbody>
   <tr th:each="studentDetail : ${studentList}">
     <td th:text="${studentDetail.student.id}">1</td>
     <td>
-      <a href="/studentList" th:href="@{/student/{id}(id=${studentDetail.student.id})}" th:text="${studentDetail.student.name}">YamadaTaro</a>
+      <a href="/studentList" th:href="@{/student/{id}(id=${studentDetail.student.id})}"
+         th:text="${studentDetail.student.name}">YamadaTaro</a>
     </td>
     <td th:text="${studentDetail.student.nameKana}">YamadaTaro</td>
     <td th:text="${studentDetail.student.nickName}">taro-</td>
@@ -33,6 +35,9 @@
     <td th:text="${studentDetail.student.age}">20</td>
     <td th:text="${studentDetail.student.gender}">men</td>
     <td th:text="${studentDetail.student.remarks}">Nothing</td>
+    <td >
+        <input type="checkbox" th:checked="${studentDetail.student.isDeleted}" />
+    </td>
   </tr>
   </tbody>
 </table>
