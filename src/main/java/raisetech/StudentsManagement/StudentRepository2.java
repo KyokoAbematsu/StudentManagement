@@ -12,11 +12,17 @@ import raisetech.StudentsManagement.data.StudentCourse;
 @Mapper
 public interface StudentRepository2 {
 
-  @Select("SELECT * FROM students")
+  @Select("SELECT * FROM students WHERE is_deleted = false")
   List<Student> search();
 
+  @Select("SELECT * FROM students WHERE id = #{id}")
+  Student searchStudent(String id);
+
   @Select("SELECT * FROM students_courses")
-  List<StudentCourse> searchStudentCourse();
+  List<StudentCourse> searchStudentCourseList();
+
+  @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}")
+  List<StudentCourse> searchStudentCourse(String studentId);
 
   @Insert(
       "INSERT INTO students(name, name_kana, nickname, email, region, age, gender, remarks, is_deleted) "
@@ -30,22 +36,10 @@ public interface StudentRepository2 {
   @Options(useGeneratedKeys = true, keyProperty = "id")
   void registerStudentCourse(StudentCourse studentCourse);
 
-  @Select("SELECT * FROM students WHERE id = #{id}")
-  Student searchStudentById(String id);
-
-  @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}")
-  List<StudentCourse> searchStudentCourseByStudentId(String studentId);
-
-  @Update(
-      "UPDATE students SET "
-          + "name = #{name}, "
-          + "name_kana = #{nameKana}, "
-          + "nickname = #{nickName}, "
-          + "email = #{email}, "
-          + "region = #{region}, "
-          + "age = #{age}, "
-          + "gender = #{gender}, "
-          + "remarks = #{remarks} "
-          + "WHERE id = #{id}")
+  @Update("UPDATE students SET name = #{name}, name_kana = #{nameKana}, nickname = #{nickName}, email = #{email}, region = #{region}, "
+      + "age = #{age}, gender = #{gender}, remarks = #{remarks}, is_deleted = #{deleted} WHERE id = #{id}")
   void updateStudent(Student student);
+
+  @Update("UPDATE students_courses SET course_name = #{courseName} WHERE id = #{id}")
+  void updateStudentCourses(StudentCourse studentCourse);
 }

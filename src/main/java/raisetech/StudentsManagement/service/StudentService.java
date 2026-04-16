@@ -15,12 +15,11 @@ import raisetech.StudentsManagement.domain.StudentDetail;
 public class StudentService {
 
   private StudentRepository2 studentRepository;
-  private StudentCourseRepository courseRepository;
 
   @Autowired
-  public StudentService(StudentRepository2 studentRepository, StudentCourseRepository courseRepository) {
+  public StudentService(StudentRepository2 studentRepository,
+      StudentCourseRepository courseRepository) {
     this.studentRepository = studentRepository;
-    this.courseRepository = courseRepository;
   }
 
   public List<Student> searchStudentList() {
@@ -28,7 +27,16 @@ public class StudentService {
   }
 
   public List<StudentCourse> searchStudentCourseList() {
-    return courseRepository.findAll();
+    return studentRepository.searchStudentCourseList();
+  }
+
+  public StudentDetail searchStudent(String id) {
+    Student student = studentRepository.searchStudent(id);
+    List<StudentCourse> studentCourses = studentRepository.searchStudentCourse(student.getId());
+    StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudent(student);
+    studentDetail.setStudentCourses(studentCourses);
+    return studentDetail;
   }
 
   public void registerStudent(Student student) {
@@ -46,20 +54,15 @@ public class StudentService {
     }
   }
 
-  public StudentDetail searchStudent(String id) {
-    Student student = studentRepository.searchStudentById(id);
-    List<StudentCourse> studentCourses = studentRepository.searchStudentCourseByStudentId(id);
-
-    StudentDetail studentDetail = new StudentDetail();
-    studentDetail.setStudent(student);
-    studentDetail.setStudentCourses(studentCourses);
-
-    return studentDetail;
-  }
-
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
     studentRepository.updateStudent(studentDetail.getStudent());
-  }
 
+    if (studentDetail.getStudentCourses() != null) {
+      for (StudentCourse studentCourse : studentDetail.getStudentCourses()) {
+        studentCourse.setStudentId(studentDetail.getStudent().getId());
+        studentRepository.updateStudentCourses(studentCourse);
+      }
+    }
+  }
 }
