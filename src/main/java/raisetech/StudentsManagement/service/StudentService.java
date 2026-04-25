@@ -9,6 +9,7 @@ import raisetech.StudentsManagement.StudentRepository2;
 import raisetech.StudentsManagement.data.Student;
 import raisetech.StudentsManagement.data.StudentCourse;
 import raisetech.StudentsManagement.domain.StudentDetail;
+import raisetech.StudentsManagement.exception.CustomException;
 
 @Service
 public class StudentService {
@@ -47,13 +48,29 @@ public class StudentService {
    *
    * @param id 受講生ID
    * @return 受講生詳細
-   */
+
+
+
   public StudentDetail searchStudent(String id) {
     Student student = studentRepository.searchStudent(id);
     List<StudentCourse> studentCourse =
         studentRepository.searchStudentCourse(String.valueOf(student.getId()));
     return new StudentDetail(student, studentCourse);
   }
+  */
+  public StudentDetail searchStudent(String id) {
+    Student student = studentRepository.searchStudent(id);
+
+    if (student == null) {
+      throw new CustomException("受講生が見つかりません。ID: " + id);
+    }
+
+    List<StudentCourse> studentCourse =
+        studentRepository.searchStudentCourse(String.valueOf(student.getId()));
+    return new StudentDetail(student, studentCourse);
+  }
+
+
 
   /**
    * 受講生詳細の登録を行います。受講生と受講生コース情報を個別に登録し、
