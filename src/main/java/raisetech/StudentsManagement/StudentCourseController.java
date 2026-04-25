@@ -128,3 +128,7 @@ public class StudentCourseController {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
   }
 }
+
+/**
+再度pr作成用
+ */
