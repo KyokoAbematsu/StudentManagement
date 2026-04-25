@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="raisetech.StudentsManagement.StudentRepository2">
+
+  <select id="search"
+    resultType="raisetech.StudentsManagement.data.Student">
+    SELECT * FROM students
+    WHERE is_deleted = false
+  </select>
+
+  <select id="searchStudent"
+    parameterType="string"
+    resultType="raisetech.StudentsManagement.data.Student">
+    SELECT * FROM students
+    WHERE id = #{id}
+  </select>
+
+  <select id="searchStudentCourseList"
+    resultType="raisetech.StudentsManagement.data.StudentCourse">
+    SELECT * FROM students_courses
+  </select>
+
+  <select id="searchStudentCourse"
+    parameterType="string"
+    resultType="raisetech.StudentsManagement.data.StudentCourse">
+    SELECT * FROM students_courses
+    WHERE student_id = #{studentId}
+  </select>
+
+  <insert id="registerStudent"
+    parameterType="raisetech.StudentsManagement.data.Student"
+    useGeneratedKeys="true"
+    keyProperty="id">
+    INSERT INTO students
+    (name, name_kana, nickname, email, region, age, gender, remarks, is_deleted)
+    VALUES
+    (#{name}, #{nameKana}, #{nickName}, #{email}, #{region}, #{age}, #{gender}, #{remarks}, false)
+  </insert>
+
+  <insert id="registerStudentCourse"
+    parameterType="raisetech.StudentsManagement.data.StudentCourse"
+    useGeneratedKeys="true"
+    keyProperty="id">
+    INSERT INTO students_courses
+    (student_id, course_name, start_date, end_date)
+    VALUES
+    (#{studentId}, #{courseName}, #{courseStartAt}, #{courseEndAt})
+  </insert>
+
+  <update id="updateStudent"
+    parameterType="raisetech.StudentsManagement.data.Student">
+    UPDATE students
+    SET
+    name = #{name},
+    name_kana = #{nameKana},
+    nickname = #{nickName},
+    email = #{email},
+    region = #{region},
+    age = #{age},
+    gender = #{gender},
+    remarks = #{remarks},
+    is_deleted = #{deleted}
+    WHERE id = #{id}
+  </update>
+
+  <update id="updateStudentCourse"
+    parameterType="raisetech.StudentsManagement.data.StudentCourse">
+    UPDATE students_courses
+    SET
+    course_name = #{courseName}
+    WHERE id = #{id}
+  </update>
+
+</mapper>
