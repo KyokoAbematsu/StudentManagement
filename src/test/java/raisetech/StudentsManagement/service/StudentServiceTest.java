@@ -17,8 +17,6 @@ import raisetech.StudentsManagement.StudentRepository2;
 import raisetech.StudentsManagement.data.Student;
 import raisetech.StudentsManagement.data.StudentCourse;
 import raisetech.StudentsManagement.domain.StudentDetail;
-import raisetech.StudentsManagement.service.StudentConverter;
-import raisetech.StudentsManagement.service.StudentService;
 
 @ExtendWith(MockitoExtension.class)
 class StudentServiceTest {
@@ -38,6 +36,7 @@ class StudentServiceTest {
 
   @Test
   void 受講生詳細の一覧検索_リポジトリとコンバーターの処理が適切に呼び出せていること() {
+
     List<Student> studentList = new ArrayList<>();
     List<StudentCourse> studentCourseList = new ArrayList<>();
 
@@ -48,16 +47,27 @@ class StudentServiceTest {
 
     verify(repository, times(1)).search();
     verify(repository, times(1)).searchStudentCourseList();
-    verify(converter, times(1)).convertStudentDetails(studentList, studentCourseList);
+    verify(converter, times(1))
+        .convertStudentDetails(studentList, studentCourseList);
   }
 
   @Test
   void 受講生IDを指定して受講生詳細を検索できること() {
+
     String studentId = "1";
 
-    Student student = new Student();
-    student.setId(studentId);
-    student.setName("山田太郎");
+    Student student = new Student(
+        studentId,
+        "山田太郎",
+        "ヤマダタロウ",
+        "タロウ",
+        "taro@example.com",
+        "東京",
+        20,
+        "男性",
+        "テスト",
+        false
+    );
 
     StudentCourse studentCourse = new StudentCourse();
     studentCourse.setStudentId(studentId);
@@ -79,17 +89,19 @@ class StudentServiceTest {
 
   @Test
   void 受講生詳細を登録できること() {
-    Student student = new Student();
-    student.setId("1");
-    student.setName("山田太郎");
-    student.setNameKana("ヤマダタロウ");
-    student.setNickName("タロウ");
-    student.setEmail("taro@example.com");
-    student.setRegion("東京");
-    student.setAge(20);
-    student.setGender("男性");
-    student.setRemarks("テスト");
-    student.setDeleted(false);
+
+    Student student = new Student(
+        "1",
+        "山田太郎",
+        "ヤマダタロウ",
+        "タロウ",
+        "taro@example.com",
+        "東京",
+        20,
+        "男性",
+        "テスト",
+        false
+    );
 
     StudentCourse studentCourse = new StudentCourse();
     studentCourse.setCourseName("Java");
@@ -108,9 +120,19 @@ class StudentServiceTest {
 
   @Test
   void 受講生登録時に受講生コース情報の初期値が設定されること() {
-    Student student = new Student();
-    student.setId("1");
-    student.setName("山田太郎");
+
+    Student student = new Student(
+        "1",
+        "山田太郎",
+        "ヤマダタロウ",
+        "タロウ",
+        "taro@example.com",
+        "東京",
+        20,
+        "男性",
+        "テスト",
+        false
+    );
 
     StudentCourse studentCourse = new StudentCourse();
     studentCourse.setCourseName("Java");
@@ -131,17 +153,19 @@ class StudentServiceTest {
 
   @Test
   void 受講生詳細を更新できること() {
-    Student student = new Student();
-    student.setId("1");
-    student.setName("山田太郎");
-    student.setNameKana("ヤマダタロウ");
-    student.setNickName("タロウ");
-    student.setEmail("taro@example.com");
-    student.setRegion("東京");
-    student.setAge(20);
-    student.setGender("男性");
-    student.setRemarks("更新テスト");
-    student.setDeleted(false);
+
+    Student student = new Student(
+        "1",
+        "山田太郎",
+        "ヤマダタロウ",
+        "タロウ",
+        "taro@example.com",
+        "東京",
+        20,
+        "男性",
+        "更新テスト",
+        false
+    );
 
     StudentCourse studentCourse = new StudentCourse();
     studentCourse.setId(1);
