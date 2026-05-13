@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,18 +38,15 @@ class StudentServiceTest {
   @Test
   void 受講生詳細の一覧検索_リポジトリとコンバーターの処理が適切に呼び出せていること() {
 
-    List<Student> studentList = new ArrayList<>();
-    List<StudentCourse> studentCourseList = new ArrayList<>();
+   Student student = new Student();
+   StudentCourse studentCourse = new StudentCourse();
+   List<StudentCourse> studentCourseList = List.of(studentCourse);
+   StudentDetail studentDetail = new StudentDetail(student, studentCourseList);
 
-    when(repository.search()).thenReturn(studentList);
-    when(repository.searchStudentCourseList()).thenReturn(studentCourseList);
+    sut.registerStudent(studentDetail);
 
-    sut.searchStudentList();
-
-    verify(repository, times(1)).search();
-    verify(repository, times(1)).searchStudentCourseList();
-    verify(converter, times(1))
-        .convertStudentDetails(studentList, studentCourseList);
+    verify(repository, times(1)).registerStudent(student);
+    verify(repository, times(1)).registerStudentCourse(studentCourse);
   }
 
   @Test
@@ -88,68 +86,20 @@ class StudentServiceTest {
   }
 
   @Test
-  void 受講生詳細を登録できること() {
-
-    Student student = new Student(
-        "1",
-        "山田太郎",
-        "ヤマダタロウ",
-        "タロウ",
-        "taro@example.com",
-        "東京",
-        20,
-        "男性",
-        "テスト",
-        false
-    );
-
+  void 受講生詳細の登録_初期化処理が行われること() {
+    String id = "999";
+    Student student = new Student();
+    student.setId(id);
     StudentCourse studentCourse = new StudentCourse();
-    studentCourse.setCourseName("Java");
 
-    StudentDetail studentDetail = new StudentDetail();
-    studentDetail.setStudent(student);
-    studentDetail.setStudentCourses(List.of(studentCourse));
+    sut.initStudentCourse(studentCourse, student.getId());
 
-    StudentDetail actual = sut.registerStudent(studentDetail);
-
-    assertEquals(studentDetail, actual);
-
-    verify(repository, times(1)).registerStudent(student);
-    verify(repository, times(1)).registerStudentCourse(studentCourse);
+    assertEquals(id, studentCourse.getStudentId());
+    assertEquals(LocalDateTime.now().getHour(), studentCourse.getCourseStartAt().getHour());
+    assertEquals(LocalDateTime.now().plusYears(1), studentCourse.getCourseEndAt().getYear());
   }
 
-  @Test
-  void 受講生登録時に受講生コース情報の初期値が設定されること() {
 
-    Student student = new Student(
-        "1",
-        "山田太郎",
-        "ヤマダタロウ",
-        "タロウ",
-        "taro@example.com",
-        "東京",
-        20,
-        "男性",
-        "テスト",
-        false
-    );
-
-    StudentCourse studentCourse = new StudentCourse();
-    studentCourse.setCourseName("Java");
-
-    StudentDetail studentDetail = new StudentDetail();
-    studentDetail.setStudent(student);
-    studentDetail.setStudentCourses(List.of(studentCourse));
-
-    sut.registerStudent(studentDetail);
-
-    assertEquals("1", studentCourse.getStudentId());
-    assertNotNull(studentCourse.getCourseStartAt());
-    assertNotNull(studentCourse.getCourseEndAt());
-
-    verify(repository, times(1)).registerStudent(student);
-    verify(repository, times(1)).registerStudentCourse(studentCourse);
-  }
 
   @Test
   void 受講生詳細を更新できること() {

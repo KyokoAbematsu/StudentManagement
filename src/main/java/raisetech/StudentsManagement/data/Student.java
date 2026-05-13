@@ -1,8 +1,14 @@
 package raisetech.StudentsManagement.data;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 public class Student {
 
+  @NotBlank
+  @Pattern(regexp = "^\\d+$", message = "数字のみ入力するようにしてください。")
   private String id;
+
   private String name;
   private String nameKana;
   private String nickName;
