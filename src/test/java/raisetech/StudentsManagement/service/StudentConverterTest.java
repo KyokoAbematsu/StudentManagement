@@ -29,9 +29,7 @@ public class StudentConverterTest {
         converter.convertStudentDetails(studentList, studentCourseList);
 
     assertThat(actual).hasSize(1);
-    assertThat(actual.get(0).getStudent().getId()).isEqualTo("1");
-    assertThat(actual.get(0).getStudent().getName()).isEqualTo("阿部松京子");
-    assertThat(actual.get(0).getStudentCourses()).hasSize(1);
-    assertThat(actual.get(0).getStudentCourses().get(0).getCourseName()).isEqualTo("Javaコース");
+    assertThat(actual.get(0).getStudent()).isEqualTo(student);
+    assertThat(actual.get(0).getStudentCourses()).isEqualTo(studentCourseList);
   }
 }
