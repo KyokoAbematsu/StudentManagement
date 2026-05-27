@@ -2,6 +2,7 @@ package raisetech.StudentsManagement.data;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import java.util.Objects;
 
 public class Student {
 
@@ -124,5 +125,41 @@ public class Student {
 
   public void setDeleted(boolean deleted) {
     this.deleted = deleted;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Student student)) {
+      return false;
+    }
+    return age == student.age
+        && deleted == student.deleted
+        && Objects.equals(id, student.id)
+        && Objects.equals(name, student.name)
+        && Objects.equals(nameKana, student.nameKana)
+        && Objects.equals(nickName, student.nickName)
+        && Objects.equals(email, student.email)
+        && Objects.equals(region, student.region)
+        && Objects.equals(gender, student.gender)
+        && Objects.equals(remarks, student.remarks);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        id,
+        name,
+        nameKana,
+        nickName,
+        email,
+        region,
+        age,
+        gender,
+        remarks,
+        deleted
+    );
   }
 }

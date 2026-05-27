@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import raisetech.StudentsManagement.data.Student;
 import raisetech.StudentsManagement.data.StudentCourse;
-import jakarta.validation.Valid;
+
 
 @Schema(description = "受講生詳細")
 @Getter
