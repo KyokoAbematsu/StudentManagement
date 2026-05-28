@@ -1,5 +1,5 @@
 INSERT INTO students
-(id, name, name_kana, nickname, email, region, age, gender, remarks, is_deleted)
+(id, name, name_kana, nick_name, email, region, age, gender, remarks, is_deleted)
 VALUES
 (11, '阿部松京子', 'アベマツ キョウコ', 'キョウコ', 'kyoko_update@example.com', '東京', 22, 'F', '更新テスト', 0),
 (12, 'Suzuki Hanako', 'スズキ ハナコ', 'Hanako', 'hanako@example.com', '京都府', 22, 'F', '', 1),
@@ -21,3 +21,5 @@ VALUES
 (6, 13, '英語プレゼン', '2026-01-02', '2026-01-15'),
 (7, 11, 'Web API基礎', '2026-01-10', NULL),
 (13, 24, 'Javaコース', '2026-04-16', '2027-04-16');
+
+ALTER TABLE students_courses ALTER COLUMN id RESTART WITH 100;

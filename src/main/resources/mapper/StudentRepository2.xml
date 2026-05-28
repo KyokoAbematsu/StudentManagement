@@ -35,7 +35,7 @@
     useGeneratedKeys="true"
     keyProperty="id">
     INSERT INTO students
-    (name, name_kana, nickname, email, region, age, gender, remarks, is_deleted)
+    (name, name_kana, nick_name, email, region, age, gender, remarks, is_deleted)
     VALUES
     (#{name}, #{nameKana}, #{nickName}, #{email}, #{region}, #{age}, #{gender}, #{remarks}, false)
   </insert>
@@ -56,7 +56,7 @@
     SET
     name = #{name},
     name_kana = #{nameKana},
-    nickname = #{nickName},
+    nick_name = #{nickName},
     email = #{email},
     region = #{region},
     age = #{age},
